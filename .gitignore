@@ -1,0 +1,7 @@
+.idea
+vendor/
+composer.lock
+bower_components/
+node_modules/
+logs/
+cache/

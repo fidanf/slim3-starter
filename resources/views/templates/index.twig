@@ -1,0 +1,8 @@
+Home
+
+<p>Form</p>
+<form action="{{ path_for('home') }}" method="post">
+    {{ csrf.field | raw }}
+    <input type="submit" value="Submit">
+</form>
+
