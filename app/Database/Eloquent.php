@@ -5,7 +5,7 @@ namespace App\Database;
 
 use Illuminate\Database\Capsule\Manager;
 
-class EloquentDatabase extends Manager
+class Eloquent extends Manager
 {
 
 }

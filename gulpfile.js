@@ -7,7 +7,7 @@ var autoprefixer = require('gulp-autoprefixer');
 
 var scripts = [
 	"bower_components/jquery/dist/jquery.js",
-    "bower_components/bootstrap/dist/bootstrap.js",
+	"bower_components/bootstrap/dist/bootstrap.js",
 	"resources/assets/scripts/app.js"
 ];
 
@@ -20,8 +20,8 @@ gulp.task('scripts', function () {
 
 gulp.task('styles', function () {
 return gulp.src([
-		'bower_components/bootstrap/dist/css/bootstrap.css',
-		'resources/assets/styles/app.scss'
+	'bower_components/bootstrap/dist/css/bootstrap.css',
+	'resources/assets/styles/app.scss'
 	])
 	.pipe(sass())
 	// .pipe(nano())

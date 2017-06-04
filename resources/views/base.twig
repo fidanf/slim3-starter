@@ -2,9 +2,13 @@
 <html lang="fr">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>{{ APP_NAME }}</title>
+	<link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-	
+	<div class="container">
+		{% block content %}{% endblock %}
+	</div>
 </body>
+	<script src="js/app.js"></script>
 </html>

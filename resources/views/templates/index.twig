@@ -1,8 +1,13 @@
-Home
+{% extends 'base.twig' %}
+{% block content %}
+
+<h1>Home</h1>
 
 <p>Form</p>
 <form action="{{ path_for('home') }}" method="post">
     {{ csrf.field | raw }}
     <input type="submit" value="Submit">
 </form>
+
+{% endblock %}
 

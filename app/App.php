@@ -2,21 +2,18 @@
 
 namespace App;
 
-use App\Support\Storage\SessionStorage;
-use App\Validation\Validator;
 use DI\ContainerBuilder;
 use Interop\Container\ContainerInterface as Container;
 
-use Faker\Factory;
-use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Database\{PDODatabase, EloquentDatabase};
-use Slim\Csrf\Guard;
-use Slim\Handlers\NotFound;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use Slim\Views\{Twig, TwigExtension};
+use Slim\Http\{Request, Response};
+use App\Support\{NotFound, Storage\SessionStorage, Extensions\VarDump};
+use App\Database\Eloquent;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Faker\Factory;
+use Slim\Csrf\Guard;
 use Twig_Extension_Debug;
-use App\Support\Extensions\VarDump;
+use App\Validation\Validator;
 
 
 class App extends \DI\Bridge\Slim\App
@@ -40,7 +37,7 @@ class App extends \DI\Bridge\Slim\App
                 return $view;
             },
 
-            EloquentDatabase::class => function () use ($config)  {
+            Eloquent::class => function () use ($config)  {
                  $capsule = new Capsule;
                  $capsule->addConnection($config['db']);
                  $capsule->bootEloquent();
