@@ -13,6 +13,8 @@ try {
     die($e);
 }
 
+require_once __DIR__ . './../app/Helpers.php';
+
 $app = new \App\App;
 
 $container = $app->getContainer();

@@ -4,13 +4,20 @@
 namespace App\Middlewares;
 
 use DI\Container;
+use App\Support\Storage\SessionStorage;
+use Slim\Csrf\Guard;
+use Slim\Views\Twig;
 
-class Middleware
+abstract class Middleware
 {
-    protected $container;
+    protected $view;
+    protected $session;
+    protected $csrf;
 
     public function __construct(Container $container)
     {
-        $this->container = $container;
+        $this->view = $container->get(Twig::class);
+        $this->session = $container->get(SessionStorage::class);
+        $this->csrf = $container->get(Guard::class);
     }
 }
