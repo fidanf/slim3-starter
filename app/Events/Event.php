@@ -2,48 +2,41 @@
 
 namespace App\Events;
 
+use SplObjectStorage;
 use SplObserver;
 use SplSubject;
 
 abstract class Event implements SplSubject
 {
-    /**
-     *
-     * Attach an SplObserver
-     * @link http://php.net/manual/en/splsubject.attach.php
-     * @param SplObserver $observer <p>
-     * The <b>SplObserver</b> to attach.
-     * </p>
-     * @return void
-     * @since 5.1.0
-     */
+    protected $storage;
+
+    public function __construct()
+    {
+        $this->storage = new SplObjectStorage();
+    }
+
     public function attach(SplObserver $observer)
     {
-        // TODO: Implement attach() method.
+        $this->storage->attach($observer);
     }
 
-    /**
-     * Detach an observer
-     * @link http://php.net/manual/en/splsubject.detach.php
-     * @param SplObserver $observer <p>
-     * The <b>SplObserver</b> to detach.
-     * </p>
-     * @return void
-     * @since 5.1.0
-     */
     public function detach(SplObserver $observer)
     {
-        // TODO: Implement detach() method.
+        if (!$this->storage->contains($observer)) {
+            return;
+        }
+
+        $this->storage->detach($observer);
     }
 
-    /**
-     * Notify an observer
-     * @link http://php.net/manual/en/splsubject.notify.php
-     * @return void
-     * @since 5.1.0
-     */
     public function notify()
     {
-        // TODO: Implement notify() method.
+        if (!count($this->storage)) {
+            return;
+        }
+
+        foreach ($this->storage as $observer) {
+            $observer->update($this);
+        }
     }
 }
