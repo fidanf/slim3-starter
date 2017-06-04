@@ -13,7 +13,11 @@ $app->group('/', function () {
  * Middlewares
  */
 
-$app->add(\App\Middlewares\ValidationErrorsMiddleware::class);
-$app->add(\App\Middlewares\OldInputMiddleware::class);
-$app->add(\App\Middlewares\CsrfMiddleware::class);
+use App\Middlewares\{CsrfMiddleware, OldInputMiddleware, ValidationErrorsMiddleware};
+use Respect\Validation\Validator;
+
+$app->add(ValidationErrorsMiddleware::class);
+$app->add(OldInputMiddleware::class);
+$app->add(CsrfMiddleware::class);
 $app->add($container->get(\Slim\Csrf\Guard::class));
+Validator::with("App\Validation\Rules");

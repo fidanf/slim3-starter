@@ -7,14 +7,15 @@ var autoprefixer = require('gulp-autoprefixer');
 
 var scripts = [
 	"bower_components/jquery/dist/jquery.js",
-	"bower_components/bootstrap/dist/bootstrap.js",
+	"bower_components/bootstrap/dist/js/bootstrap.js",
+	"bower_components/bootstrap/dist/js/alert.js",
 	"resources/assets/scripts/app.js"
 ];
 
 gulp.task('scripts', function () {
 	return gulp.src(scripts)
 	.pipe(concat('app.js'))
-	// .pipe(uglify())
+	// .pipe(uglify())*
 	.pipe(gulp.dest('./public/js'))
 });
 

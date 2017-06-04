@@ -1,13 +1,38 @@
 {% extends 'base.twig' %}
 {% block content %}
 
-<h1>Home</h1>
+    <h1>Home</h1>
 
-<p>Form</p>
-<form action="{{ path_for('home') }}" method="post">
-    {{ csrf.field | raw }}
-    <input type="submit" value="Submit">
-</form>
+    <div class="container-fluid">
+        <div class="row">
+        <form class="form-horizontal" action="{{ path_for('home') }}" method="post">
+            <legend>Login</legend>
+            <fieldset>
+                <div class="col-md-4">
+                    <div class="form-group  {{ errors.name ? 'has-error' : '' }}">
+                        <label for="name" class="control-label">Name :</label>
+                        <input class="form-control" type="text" name="name" id="name"  value="">
+                        {% if errors.name %}<span class="helpblock">{{ errors.name | first }}</span>{% endif %}
+                    </div>
+                    <div class="form-group {{ errors.email ? 'has-error' : '' }}">
+                        <label for="email" class="control-label">Email :</label>
+                        <input class="form-control" type="text" name="email" id="email" value="">
+                        {% if errors.email %}<span class="helpblock">{{ errors.email | first }}</span>{% endif %}
+                    </div>
+                    <div class="form-group  {{ errors.password ? 'has-error' : '' }}">
+                        <label for="password" class="control-label">Password :</label>
+                        <input class="form-control" type="password" name="password" id="password" value="">
+                        {% if errors.password %}<span class="helpblock">{{ errors.password | first }}</span>{% endif %}
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Send">
+                    </div>
+                </div>
+            </fieldset>
+            {{ csrf.field | raw }}
+        </form>
+    </div>
+
 
 {% endblock %}
 

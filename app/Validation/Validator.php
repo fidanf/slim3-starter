@@ -2,10 +2,10 @@
 
 namespace App\Validation;
 
+use Slim\Http\Request;
 use App\Support\Storage\SessionStorage;
 use App\Validation\Contracts\ValidatorInterface;
 use Respect\Validation\Exceptions\NestedValidationException;
-use Slim\Http\Request;
 
 class Validator implements ValidatorInterface
 {

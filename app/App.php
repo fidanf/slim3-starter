@@ -5,6 +5,7 @@ namespace App;
 use DI\ContainerBuilder;
 use Interop\Container\ContainerInterface as Container;
 
+use Slim\Flash\Messages;
 use Slim\Views\{Twig, TwigExtension};
 use Slim\Http\{Request, Response};
 use App\Support\{NotFound, Storage\SessionStorage, Extensions\VarDump};
@@ -34,6 +35,7 @@ class App extends \DI\Bridge\Slim\App
                 $view->addExtension(new Twig_Extension_Debug());
                 $view->addExtension(new VarDump());
                 $view->getEnvironment()->addGlobal('APP_NAME', getenv('APP_NAME'));
+                $view->getEnvironment()->addGlobal('flash', $container->get(Messages::class));
                 return $view;
             },
 
@@ -57,12 +59,16 @@ class App extends \DI\Bridge\Slim\App
                 return $guard;
             },
 
+            Messages::class => function() {
+                return new Messages;
+            },
+
             SessionStorage::class => function() {
                 return new SessionStorage;
             },
 
             Validator::class => function(Container $container) {
-                return new Validator($container->get(SessionStorage::class)); // ->with(App\\Validation\\Rules);
+                return new Validator($container->get(SessionStorage::class));
             },
 
             'notFoundHandler' => function(Container $container){
