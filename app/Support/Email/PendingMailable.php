@@ -2,8 +2,6 @@
 
 namespace App\Support\Email;
 
-use App\Support\Email\Mailer;
-
 class PendingMailable
 {
     public function __construct(Mailer $mailer)

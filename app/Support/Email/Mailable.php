@@ -2,7 +2,7 @@
 
 namespace App\Support\Email;
 
-use App\Support\Email\{Mailer, Contracts\MailableInterface};
+use App\Support\Email\Contracts\MailableInterface;
 
 abstract class Mailable implements MailableInterface
 {

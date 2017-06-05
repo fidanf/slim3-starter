@@ -3,7 +3,6 @@ vendor/
 composer.lock
 bower_components/
 node_modules/
-logs/
-cache/
+logs/*
+cache/*
 .env
-.gitignore

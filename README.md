@@ -2,7 +2,7 @@
 
 A Slim 3 starter with a clean directory structure, inspired from Laravel. 
 This source code provides the most essential setup & libraries to help deal with most of the needs any web application has : 
-- Full form validation feature with custom rules
+- Full form validation features with custom rules
 - Events and listeners/handlers
 - Data persistance via ORM
 - MVC architecture

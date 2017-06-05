@@ -3,7 +3,6 @@
 namespace App\Support\Email;
 
 use App\Support\Email\Contracts\MailableInterface;
-use App\Support\Email\MessageBuilder;
 use Slim\Views\Twig;
 use Swift_Mailer;
 use Swift_Message;

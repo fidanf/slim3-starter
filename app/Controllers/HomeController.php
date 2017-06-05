@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Validation\Forms\LoginForm;
-use App\Validation\Validator;
+use App\Validation\{Forms\LoginForm, Validator};
 use Slim\Http\{Response, Request};
 use App\Support\Email\Templates\Welcome;
+use Swift_SwiftException;
 
 class HomeController extends Controller {
 
