@@ -13,11 +13,11 @@ return [
         'settings.displayErrorDetails' => true,
     ],
     'db' => [
-        'driver' => "{$_ENV['DB_DRIVER']}",
-        'host' => "{$_ENV['DB_HOST']}",
-        'database' => "{$_ENV['DB_NAME']}",
-        'username' => "{$_ENV['DB_USER']}",
-        'password' => "{$_ENV['DB_PASSWORD']}",
+        'driver' => getenv('DB_DRIVER'),
+        'host' => getenv('DB_HOST'),
+        'database' => getenv('DB_NAME'),
+        'username' => getenv('DB_USER'),
+        'password' => getenv('DB_PASSWORD'),
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'prefix' => '',
@@ -25,5 +25,15 @@ return [
     'twig_config' => [
         'debug' => true,
         'cache' => false,
+    ],
+    'mail' => [
+        'host' => getenv('SMTP_HOST'),
+        'port' => getenv('SMTP_PORT'),
+        'from' => [
+            'name' => getenv('SMTP_FROM_NAME'),
+            'address' => getenv('SMTP_FROM_ADDRESS')
+        ],
+        'username' => getenv('SMTP_USERNAME'),
+        'password' => getenv('SMTP_PASSWORD'),
     ],
 ];

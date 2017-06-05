@@ -22,7 +22,6 @@ class App extends \DI\Bridge\Slim\App
 
     protected function configureContainer(ContainerBuilder $builder)
     {
-
         $config = require_once __DIR__ . '/Settings.php';
 
         $dependencies = [
