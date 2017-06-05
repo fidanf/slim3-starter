@@ -16,10 +16,10 @@ class Welcome extends Mailable
 
     public function build()
     {
-        return $this->subject("Welcome to Codecourse {$this->user->name}")
+        return $this->subject("Welcome {$this->user->name}")
             ->view('emails/welcome.twig')
-            ->attach(__DIR__ . '/../../composer.json')
-            ->attach(__DIR__ . '/../../.env')
+            // ->attach(__DIR__ . '/../../composer.json')
+            // ->attach(__DIR__ . '/../../.env')
             ->with([
                 'user' => $this->user
             ]);

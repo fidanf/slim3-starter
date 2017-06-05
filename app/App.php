@@ -29,7 +29,7 @@ class App extends \DI\Bridge\Slim\App
 
         $dependencies = [
             Twig::class => function (Container $container) use ($config) {
-                $view = new Twig('../resources/views', $config['twig_config']);
+                $view = new Twig(['../resources/views', '../resources/assets'], $config['twig_config']);
                 $view->addExtension(new TwigExtension(
                     $container->get('router'),
                     $container->get('request')->getUri()
