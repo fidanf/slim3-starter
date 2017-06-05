@@ -13,8 +13,11 @@ use App\Database\Eloquent;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Faker\Factory;
 use Slim\Csrf\Guard;
-use Twig_Extension_Debug;
 use App\Validation\Validator;
+use App\Support\Email\Mailer;
+use Twig_Extension_Debug;
+use Swift_SmtpTransport;
+use Swift_Mailer;
 
 
 class App extends \DI\Bridge\Slim\App
@@ -74,6 +77,17 @@ class App extends \DI\Bridge\Slim\App
                 return new NotFound($container->get(Twig::class));
             },
 
+            'mail' => function (Container $container) use ($config) {
+            
+                $transport = (Swift_SmtpTransport::newInstance($config['mail']['host'], $config['mail']['port']))
+                    ->setUsername($config['mail']['username'])
+                    ->setPassword($config['mail']['password']);
+
+                $swift = Swift_Mailer::newInstance($transport);
+
+                return (new Mailer($swift, $container->get(Twig::class)))
+                    ->alwaysFrom($config['mail']['from']['address'], $config['mail']['from']['name']);
+            },
         ];
 
         $builder->addDefinitions($config['settings']);
