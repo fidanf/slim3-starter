@@ -11,9 +11,12 @@
         "google/recaptcha": "^1.1",
         "symfony/var-dumper": "^3.2",
         "vlucas/phpdotenv": "^2.4",
-        "nesbot/carbon": "^1.22",
+        "nesbot/carbon": "1.22.1",
         "fzaninotto/faker": "v1.6.0",
-		"swiftmailer/swiftmailer": "5.4"
+		"swiftmailer/swiftmailer": "5.4",
+		"illuminate/pagination": "v5.4.19",
+		"league/csv": "8.2.1",
+		"tuupola/slim-basic-auth": "3.0.0-rc.1"
     },
      "autoload": {
         "psr-4": {
