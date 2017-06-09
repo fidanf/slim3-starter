@@ -13,7 +13,7 @@ class HomeController extends Controller {
 	public function index(Request $request, Response $response, Validator $validator)
 	{
 
-	    if($request->getMethod() == 'POST') {
+	    if($request->isPost()) {
             $validator->validate($request, LoginForm::getRules());
             
             if($validator->fails()) {
