@@ -25,21 +25,21 @@ class HomeController extends Controller {
             $user->name = $request->getParam('name');
             $user->email = $request->getParam('email');
 
-            try {
+             User::create([
+                 'name' => $request->getParam('name'),
+                 'email' => $request->getParam('email'),
+                 'password' => password_hash($request->getParam('password'), PASSWORD_BCRYPT)
+             ]);
+
+             try {
                 $this->mail->to($user->email, $user->name)->send(new Welcome($user));
                 return $response->write('Mail send!')->withStatus(200);
-            } catch (Swift_SwiftException $e) {
+             } catch (Swift_SwiftException $e) {
                 debug($e);
-            }
+             }
 
-            // User::create([
-            //     'name' => $request->getParam('name'),
-            //     'email' => $request->getParam('email'),
-            //     'password' => password_hash($request->getParam('password'), PASSWORD_BCRYPT)
-            // ]);
-
-            // $this->flash->addMessage('success', 'User was created!');
-            // return $response->withRedirect($this->router->pathFor('home'));
+             $this->flash->addMessage('success', 'User was created!');
+             return $response->withRedirect($this->router->pathFor('home'));
         }
         
         return $this->view->render($response,'templates/index.twig');
