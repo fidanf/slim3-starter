@@ -44,6 +44,7 @@ class App extends \DI\Bridge\Slim\App
             Eloquent::class => function () use ($config)  {
                  $capsule = new Capsule;
                  $capsule->addConnection($config['db']);
+                 $capsule->setAsGlobal();
                  $capsule->bootEloquent();
                  return $capsule;
              },
