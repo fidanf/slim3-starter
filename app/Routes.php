@@ -5,8 +5,7 @@
  */
 
 $app->group('/', function () {
-	$this->get('', ['\App\Controllers\HomeController', 'index'])->setName('home');
-	$this->post('', ['\App\Controllers\HomeController', 'index']);
+	$this->map(['GET', 'POST'],'', ['\App\Controllers\HomeController', 'index'])->setName('home');
 });
 
 /**
