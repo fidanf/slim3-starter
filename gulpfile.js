@@ -15,7 +15,7 @@ var scripts = [
 gulp.task('scripts', function () {
 	return gulp.src(scripts)
 	.pipe(concat('app.js'))
-	// .pipe(uglify())*
+	.pipe(uglify())
 	.pipe(gulp.dest('./public/js'))
 });
 
@@ -25,7 +25,7 @@ return gulp.src([
 	'resources/assets/styles/app.scss'
 	])
 	.pipe(sass())
-	// .pipe(nano())
+	.pipe(nano())
 	.pipe(concat('app.css'))
 	.pipe(gulp.dest('./public/css'))
 });

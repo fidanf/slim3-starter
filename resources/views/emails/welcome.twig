@@ -1,4 +1,42 @@
-<style>{% include 'styles/app.css' %}</style>
+<style>
+    .container {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto; }
+    .btn-default {
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc; }
+    .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px; }
+    hr {
+        height: 0;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box; }
+    h1 {
+        margin: .67em 0;
+        font-size: 2em; }
+</style>
 
 <div class="container">
     <h1>Welcome {{ user.name }} ! </h1>
