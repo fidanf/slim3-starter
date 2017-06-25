@@ -6,5 +6,3 @@ node_modules/
 logs/*
 cache/*
 .env
-public/js/app.js
-public/css/app.css
