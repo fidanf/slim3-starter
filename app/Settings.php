@@ -10,7 +10,7 @@ return [
         'settings.responseChunkSize' => 4096,
         'settings.outputBuffering' => 'append',
         'settings.determineRouteBeforeAppMiddleware' => true,
-        'settings.displayErrorDetails' => true,
+        'settings.displayErrorDetails' => getenv('APP_DEBUG') === 'true'
     ],
     'db' => [
         'driver' => getenv('DB_DRIVER'),
@@ -24,7 +24,8 @@ return [
     ],
     'twig_config' => [
         'debug' => true,
-        'cache' => false,
+//        'cache' => false,
+        'cache' => __DIR__ . '/../cache/',
     ],
     'mail' => [
         'host' => getenv('SMTP_HOST'),

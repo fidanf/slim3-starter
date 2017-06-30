@@ -5,6 +5,9 @@ namespace App;
 use DI\ContainerBuilder;
 use Interop\Container\ContainerInterface as Container;
 
+use Monolog\Handler\FingersCrossedHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Slim\Flash\Messages;
 use Slim\Views\{Twig, TwigExtension};
 use Slim\Http\{Request, Response};
@@ -78,6 +81,10 @@ class App extends \DI\Bridge\Slim\App
                 return new NotFound($container->get(Twig::class));
             },
 
+            'errorHandler' => function(Container $container) use ($config) {
+                return new Support\Error($config['settings']['settings.displayErrorDetails'],$container->get(Logger::class));
+            },
+
             'mail' => function (Container $container) use ($config) {
             
                 $transport = (Swift_SmtpTransport::newInstance($config['mail']['host'], $config['mail']['port']))
@@ -89,6 +96,17 @@ class App extends \DI\Bridge\Slim\App
                 return (new Mailer($swift, $container->get(Twig::class)))
                     ->alwaysFrom($config['mail']['from']['address'], $config['mail']['from']['name']);
             },
+
+            Logger::class => function() {
+                $logger = new Logger('logger');
+                $filename = __DIR__ . '/../logs/error.log';
+                $stream = new StreamHandler($filename, Logger::DEBUG);
+                $fingersCrossed = new FingersCrossedHandler(
+                    $stream, Logger::ERROR);
+                $logger->pushHandler($fingersCrossed);
+                return $logger;
+            },
+
         ];
 
         $builder->addDefinitions($config['settings']);

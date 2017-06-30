@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use Interop\Container\ContainerInterface as Container;
 use App\Database\Eloquent;
-use App\Support\Email\Mailer;
 use App\Support\Storage\SessionStorage;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
