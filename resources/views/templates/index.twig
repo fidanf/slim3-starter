@@ -1,12 +1,12 @@
 {% extends 'base.twig' %}
 {% block content %}
 
-    <h1>Home</h1>
+    <h1>User registration</h1>
 
     <div class="container-fluid">
         <div class="row">
         <form class="form-horizontal" action="{{ path_for('home') }}" method="post" autocomplete="on">
-            <legend>Login</legend>
+            <legend>Fill the form below to try out the form validation & events</legend>
             <fieldset>
                 <div class="col-md-4">
                     <div class="form-group  {{ errors.name ? 'has-error' : '' }}">
