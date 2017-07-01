@@ -25,6 +25,7 @@ class ArticleController extends Controller
         if(!$article) {
             return $response->withJson(['error' => 'Record was not found'], 404);
         }
+
         $resource = new Item($article, new ArticleTransformer);
         $data = $this->fractal->createData($resource)->toArray();
         return $response->withJson($data, 200);

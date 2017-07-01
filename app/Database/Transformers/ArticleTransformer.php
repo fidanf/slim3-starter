@@ -7,6 +7,7 @@ use App\Models\Article;
 use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
+
 class ArticleTransformer extends TransformerAbstract
 {
     public function transform(Article $article)

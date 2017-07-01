@@ -5,6 +5,7 @@ namespace App;
 use DI\ContainerBuilder;
 use Interop\Container\ContainerInterface as Container;
 
+use League\Fractal\Manager;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -77,26 +78,6 @@ class App extends \DI\Bridge\Slim\App
                 return new Validator($container->get(SessionStorage::class));
             },
 
-            'notFoundHandler' => function(Container $container){
-                return new NotFound($container->get(Twig::class));
-            },
-
-            'errorHandler' => function(Container $container) use ($config) {
-                return new Support\Error($config['settings']['settings.displayErrorDetails'],$container->get(Logger::class));
-            },
-
-            'mail' => function (Container $container) use ($config) {
-            
-                $transport = (Swift_SmtpTransport::newInstance($config['mail']['host'], $config['mail']['port']))
-                    ->setUsername($config['mail']['username'])
-                    ->setPassword($config['mail']['password']);
-
-                $swift = Swift_Mailer::newInstance($transport);
-
-                return (new Mailer($swift, $container->get(Twig::class)))
-                    ->alwaysFrom($config['mail']['from']['address'], $config['mail']['from']['name']);
-            },
-
             Logger::class => function() {
                 $logger = new Logger('logger');
                 $filename = __DIR__ . '/../logs/error.log';
@@ -107,6 +88,29 @@ class App extends \DI\Bridge\Slim\App
                 return $logger;
             },
 
+            'notFoundHandler' => function(Container $container){
+                return new NotFound($container->get(Twig::class));
+            },
+
+            'errorHandler' => function(Container $container) use ($config) {
+                return new Support\Error($config['settings']['settings.displayErrorDetails'],$container->get(Logger::class));
+            },
+
+            'mail' => function (Container $container) use ($config) {
+
+                $transport = (Swift_SmtpTransport::newInstance($config['mail']['host'], $config['mail']['port']))
+                    ->setUsername($config['mail']['username'])
+                    ->setPassword($config['mail']['password']);
+
+                $swift = Swift_Mailer::newInstance($transport);
+
+                return (new Mailer($swift, $container->get(Twig::class)))
+                    ->alwaysFrom($config['mail']['from']['address'], $config['mail']['from']['name']);
+            },
+
+            'fractal' => function () {
+                return new Manager();
+            },
         ];
 
         $builder->addDefinitions($config['settings']);
