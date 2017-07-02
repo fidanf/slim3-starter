@@ -7,13 +7,13 @@ use App\Events\Handlers\EmailConfirmedRegistration;
 use App\Events\UserRegisterEvent;
 use App\Models\User;
 use App\Validation\{Forms\LoginForm, Validator};
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\{Response, Request};
 
 class HomeController extends Controller {
 
-	public function index(Request $request, Response $response, Validator $validator)
+	public function index(Request $request, Response $response, Validator $validator): ResponseInterface
 	{
-
 	    if($request->isPost()) {
             $validator->validate($request, LoginForm::getRules());
             
@@ -27,7 +27,7 @@ class HomeController extends Controller {
             $user->email = $request->getParam('email');
             $user->password = password_hash($request->getParam('password'), PASSWORD_BCRYPT);
 
-            $event= new UserRegisterEvent($user, $this->mail);
+            $event = new UserRegisterEvent($user, $this->mail);
             $event->attach(new CreateUserRecord);
             $event->attach(new EmailConfirmedRegistration);
             $event->notify();
