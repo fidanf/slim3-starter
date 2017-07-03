@@ -7,7 +7,8 @@ This source code provides the most essential setup & libraries to help deal with
 - Data persistance via ORM
 - MVC architecture
 - Email delivery
-- CSRF protection
+- CSRF protection for web routes
+- Apidoc integration 
 - 403/404 errors catching with custom views
 - Assets management with Bower & Gulp
 - Handy debug() function using Symfony/Vardumper library
@@ -21,5 +22,5 @@ This source code provides the most essential setup & libraries to help deal with
       bower install
       gulp
       
-Then you can choose to run the user_table.sql if you wish to try the form submission on the homepage.
+Then you can choose to run the dump.sql if you wish to try the form submission on the homepage.
 
