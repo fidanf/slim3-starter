@@ -1,7 +1,10 @@
 <VirtualHost *:80>
-	Alias /api	c:/wamp/www/slim3-starter/doc
 	ServerName slim3-starter
+
+	Alias "/doc"	"c:/wamp/www/slim3-starter/doc/"
+
 	DocumentRoot "c:/wamp/www/slim3-starter/public"
+
 	<Directory  "c:/wamp/www/slim3-starter/public/">
 			Options -Indexes
 			AllowOverride None
@@ -14,4 +17,5 @@
 			RewriteRule ^ index.php [QSA,L]
 		</IfModule>
 	</Directory>
+
 </VirtualHost>
