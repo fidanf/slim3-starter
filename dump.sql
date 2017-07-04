@@ -66,8 +66,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
 (1, 'John', 'john@someaddress.com', '$2y$10$OXxBTnDoEjDlC3Gmpe2EZ.IokjNk0IVFkh/hGKiv284/fNk2WJjTG', '2017-06-24 09:52:43', '2017-06-24 11:52:43'),
-(2, 'Jane', 'jane@someaddress.com', '$2y$10$AfL3QbIXMalow1YZS0dz6.qYqjnbrk.mYaFkK2YGWOq4BtFhkfX5a', '2017-06-24 10:03:12', '2017-06-24 12:03:12'),
-(8, 'Frank', 'frank.fidanza@epsi.fr', '$2y$10$opEwhQfut2A7.pvr/jA3q.djuLrUS4d4Gwy4ntjg1qy.cn2fPE.U6', '2017-06-30 22:47:35', '2017-07-01 00:47:35');
+(2, 'Jane', 'jane@someaddress.com', '$2y$10$AfL3QbIXMalow1YZS0dz6.qYqjnbrk.mYaFkK2YGWOq4BtFhkfX5a', '2017-06-24 10:03:12', '2017-06-24 12:03:12');
+
 
 --
 -- Index pour les tables exportées
