@@ -109,6 +109,11 @@ class ArticleController extends Controller
         return $response->withJson($article, 200);
     }
 
+    public function put(Request $request, Response $response): Response
+    {
+        die('Put');
+    }
+
     public function delete(Request $request, Response $response): Response
     {
         die('Delete');

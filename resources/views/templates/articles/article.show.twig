@@ -1,0 +1,18 @@
+{% extends 'base.twig' %}
+{% block content %}
+
+    <p>
+        {{ article.body }}
+    </p>
+    <i>Published {{ article.created_at.diffForHumans }}</i>
+    <br>
+    {% if article.updated_at %}
+        <i>Updated {{ article.updated_at.diffForHumans }}</i>
+    {% endif %}
+    <br>
+
+        <a href="{{ path_for('article.index') }}" class="btn btn-primary">Return to index</a>
+{% endblock %}
+
+
+

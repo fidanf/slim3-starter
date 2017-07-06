@@ -11,6 +11,8 @@ use Respect\Validation\Validator;
 
 $app->group('/', function () {
 	$this->map(['GET', 'POST'],'', [HomeController::class, 'index'])->setName('home');
+	$this->get('article', [HomeController::class, 'list'])->setname('article.index');
+	$this->get('article/{id}', [HomeController::class, 'show'])->setname('article.show');
 })->add(CsrfMiddleware::class);
 
 /**
@@ -21,6 +23,7 @@ $app->group('/api', function() {
         $this->get('', [ArticleController::class, 'index']);
         $this->post('', [ArticleController::class, 'store']);
         $this->get('/{id:[0-9]+}', [ArticleController::class, 'show']);
+        $this->put('/{id:[0-9]+}', [ArticleController::class, 'update']);
         $this->delete('/{id:[0-9]+}', [ArticleController::class, 'delete']);
     });
 });

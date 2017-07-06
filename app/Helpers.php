@@ -4,6 +4,9 @@
  * Custom Helpers
  */
 
+use App\Support\Extensions\ViewFactory;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Symfony\Component\VarDumper\{VarDumper, Dumper\HtmlDumper, Cloner\VarCloner};
 
 function debug()
@@ -26,4 +29,18 @@ VarDumper::setHandler(function ($var) {
         'private' => 'color:#ec9114',
     ]);
     $htmlDumper->dump($cloner->cloneVar($var));
+});
+
+LengthAwarePaginator::viewFactoryResolver(function (){
+    return new ViewFactory;
+});
+
+LengthAwarePaginator::defaultView('pagination/defaultPagination.twig');
+
+Paginator::currentPathResolver(function (){
+    return isset($_SERVER['REQUEST_URI']) ? strtok($_SERVER['REQUEST_URI'], '?') : '/';
+});
+
+Paginator::currentPageResolver(function (){
+   return $_GET['page'] ?? 1;
 });

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Events\Handlers\CreateUserRecord;
 use App\Events\Handlers\EmailConfirmedRegistration;
 use App\Events\UserRegisterEvent;
+use App\Models\Article;
 use App\Models\User;
 use App\Validation\{Forms\LoginForm, Validator};
 use Psr\Http\Message\ResponseInterface;
@@ -35,7 +36,20 @@ class HomeController extends Controller {
             $this->flash->addMessage('success', 'User was created!');
             return $response->withRedirect($this->router->pathFor('home'));
         }
-        
+
         return $this->view->render($response,'templates/index.twig');
 	}
+
+    public function list(Request $request, Response $response): ResponseInterface
+    {
+        $articles = Article::paginate(2)->appends($request->getParams());
+        return $this->view->render($response, 'templates/articles/article.index.twig', compact('articles'));
+    }
+
+    public function show(Response $response, int $id): ResponseInterface
+    {
+        $article = Article::find($id);
+        return $this->view->render($response, 'templates/articles/article.show.twig', compact('article'));
+    }
+
 }
