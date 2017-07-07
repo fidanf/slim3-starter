@@ -2,18 +2,19 @@
 
 A Slim 3 starter with a clean directory structure, inspired from Laravel. 
 This source code provides the most essential setup & libraries to help deal with most of the needs any web application has : 
-- Full form validation features with custom rules
-- Events and listeners/handlers
-- Data persistance via ORM
 - MVC architecture
-- Email delivery
+- Full form validation features with custom rules and errors
+- Events and listeners/handlers based on the SPL library
+- Data persistance via ORM (Eloquent)
+- Pagination using Eloquent
+- Email delivery system using the popular Swiftmailer library
 - CSRF protection for web routes
-- Apidoc integration 
 - 403/404 errors catching with custom views
 - Assets management with Bower & Gulp
-- Handy debug() function using Symfony/Vardumper library
-- Clean dependency injection & autowiring using the php-DI slim bridge library
+- Handy debug() function using symfony/vardumper library
+- Clean dependency injection & autowiring system with the php-DI bridge for Slim 3
 - Application settings into a .env file
+- Separate API routes & apidoc integration/documentation examples
 
 ### After cloning the project, type the following commands to build all the dependencies 
 
@@ -21,6 +22,9 @@ This source code provides the most essential setup & libraries to help deal with
       npm install
       bower install
       gulp
-      
-Then you can choose to run the dump.sql if you wish to try the form submission on the homepage.
+     
+### Recommended dev environnement : 
+- PhpStorm + Vagrant homestead or Wampserver
+- Mailtrap.io 
 
+Feel free to use the dump.sql file in the root directory to try out the form on the homepage and the api routes.
