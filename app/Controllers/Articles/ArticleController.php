@@ -9,6 +9,7 @@ use App\Models\Article;
 use App\Validation\{Forms\ArticleForm, Validator};
 use League\Fractal\Resource\{Collection, Item};
 use Slim\Http\{Request, Response};
+use Faker\Factory;
 
 class ArticleController extends Controller
 {
@@ -117,5 +118,18 @@ class ArticleController extends Controller
     public function delete(Request $request, Response $response): Response
     {
         die('Delete');
+    }
+
+    public function seed(Response $response, Factory $faker, int $count)
+    {
+        $factory = $faker::create();
+        for($i = 0; $i < $count; $i++ ) {
+            $article = Article::create([
+                'title' => $factory->realText($factory->numberBetween(10, 50)),
+                'body' => $factory->text(300),
+            ]);
+        }
+        
+        return $response->withJson($article, 200);
     }
 }

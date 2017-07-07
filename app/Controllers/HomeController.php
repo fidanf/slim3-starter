@@ -42,7 +42,8 @@ class HomeController extends Controller {
 
     public function list(Request $request, Response $response): ResponseInterface
     {
-        $articles = Article::paginate(2)->appends($request->getParams());
+        $perPage = $request->getParam('perPage') ?? 5;
+        $articles = Article::paginate($perPage)->appends($request->getParams());
         return $this->view->render($response, 'templates/articles/article.index.twig', compact('articles'));
     }
 

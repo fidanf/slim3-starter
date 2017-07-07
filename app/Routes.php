@@ -25,6 +25,7 @@ $app->group('/api', function() {
         $this->get('/{id:[0-9]+}', [ArticleController::class, 'show']);
         $this->put('/{id:[0-9]+}', [ArticleController::class, 'update']);
         $this->delete('/{id:[0-9]+}', [ArticleController::class, 'delete']);
+        $this->get('/seed/{count:[0-9]+}', [ArticleController::class, 'seed']);
     });
 });
 

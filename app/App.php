@@ -53,10 +53,6 @@ class App extends \DI\Bridge\Slim\App
                  return $capsule;
              },
 
-            Factory::class => function () {
-                 return new Factory();
-            },
-
             Guard::class => function() {
                 $guard = new Guard;
                 $guard->setFailureCallable(function (Request $request, Response $response, callable $next) {
