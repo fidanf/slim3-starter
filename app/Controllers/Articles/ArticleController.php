@@ -10,6 +10,7 @@ use App\Validation\{Forms\ArticleForm, Validator};
 use League\Fractal\Resource\{Collection, Item};
 use Slim\Http\{Request, Response};
 use Faker\Factory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ArticleController extends Controller
 {
@@ -60,13 +61,14 @@ class ArticleController extends Controller
      * @apiGroup Articles
      * @apiName show
      * @api {get} /article/:id
-     * @apiParam {Number} id Articles unique ID.
+     * @apiParam {Number} id Article's unique ID.
      * @apiSuccess {Int}                article.id          Article ID.
      * @apiSuccess {String}             article.title       The article's title.
      * @apiSuccess {String}             article.body        The article's body.
      * @apiSuccess {String}             article.published   Since when the article was published/created.
      * @apiSuccess {String}             article.updated     Since when the article was updated.
-     * @apiDescription Get an article by ID.
+     * @apiDescription Gets an article by ID.
+     * @apiSampleRequest http://localhost:8000/article/:id
      * @apiSuccessExample {json} Success-Response:
      * HTTP/1.1 200 OK
      * "data": {
@@ -100,6 +102,28 @@ class ArticleController extends Controller
         return $response->withJson($data, 200);
     }
 
+    /**
+    * @apiGroup Articles
+    * @apiName store
+    * @api {post} /article
+    * @apiParam {String} title The article's title.
+    * @apiParam {Text} body The article's body.
+    * @apiSuccess {Int}                article.id          Article ID.
+    * @apiSuccess {String}             article.title       The article's title.
+    * @apiSuccess {String}             article.body        The article's body.
+    * @apiSuccess {String}             article.published   Since when the article was published/created.
+    * @apiSuccess {String}             article.updated     Since when the article was updated.
+    * @apiDescription Creates an article.
+    * @apiSuccessExample {json} Success-Response:
+    * HTTP/1.1 200 OK
+    * "data": {
+    *      "id": 1,
+    *      "title": "My title",
+    *      "body": "My body",
+    *      "published": "2 seconds before",
+    *      "updated": "2 seconds before"
+    * }
+    */
     public function store(Request $request, Response $response, Validator $validator)
     {
         $validator->validate($request,ArticleForm::getRules());
@@ -110,14 +134,40 @@ class ArticleController extends Controller
         return $response->withJson($article, 200);
     }
 
-    public function put(Request $request, Response $response): Response
+    public function update(Request $request, Response $response): Response
     {
-        die('Put');
+        die('Update');
     }
 
-    public function delete(Request $request, Response $response): Response
+    /**
+    * @apiGroup Articles
+    * @apiName delete
+    * @api {delete} /article/:id
+    * @apiParam {Number} id The article's unique ID.
+    * @apiDescription Deletes an article.
+    * @apiSuccessExample {json} Success-Response:
+    * HTTP/1.1 204 OK
+    * @apiErrorExample {json} Error-Response:
+    * HTTP/1.1 404 Not Found
+    * {
+    *   "error": "No query results for model [App\\Models\\Article] :id"
+    * }
+    */
+
+    /**
+     * @param Response $response
+     * @param int $id
+     * @return Response
+     */
+    public function delete(Request $request, Response $response, int $id): Response
     {
-        die('Delete');
+        try {
+            $article = Article::findOrfail($id);
+            $article->delete();
+            return $response->withStatus(204);
+        } catch (ModelNotFoundException $e) {
+            return $response->withJson(['error' => $e->getMessage()], 404);
+        } 
     }
 
     public function seed(Response $response, Factory $faker, int $count)
@@ -126,7 +176,7 @@ class ArticleController extends Controller
         for($i = 0; $i < $count; $i++ ) {
             $article = Article::create([
                 'title' => $factory->realText($factory->numberBetween(10, 50)),
-                'body' => $factory->text(300),
+                'body' => $factory->text(500),
             ]);
         }
         
