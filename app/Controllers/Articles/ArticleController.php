@@ -134,9 +134,20 @@ class ArticleController extends Controller
         return $response->withJson($article, 200);
     }
 
-    public function update(Request $request, Response $response): Response
+    public function update(Request $request, Response $response, Validator $validator, int $id): Response
     {
-        die('Update');
+        $article = Article::find($id);
+        if(!$article) {
+            return $response->withJson(['error' => 'Record was not found'], 404);
+        }
+
+        $validator->validate($request,ArticleForm::getRules());
+        if($validator->fails()) {
+            return $response->withJson(['errors' => $this->session->get('errors')], 400);
+        }
+
+        $article->fill($request->getParams())->save();
+        return $response->withJson($article, 200);
     }
 
     /**
