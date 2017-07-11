@@ -134,6 +134,35 @@ class ArticleController extends Controller
         return $response->withJson($article, 200);
     }
 
+    /**
+    * @apiGroup Articles
+    * @apiName update
+    * @api {put} /article/:id
+    * @apiParam {Number} id The article's unique ID.
+    * @apiParam {String} title The article's title.
+    * @apiParam {Text} body The article's body.
+    * @apiDescription Updates an article.
+    * @apiSuccessExample {json} Success-Response:
+    * HTTP/1.1 200 OK
+    * "data": {
+    *      "id": 1,
+    *      "title": "Updated title",
+    *      "body": "Updated body",
+    *      "published": "2 days before",
+    *      "updated": "1 second ago"
+    * }
+    * @apiErrorExample {json} Error-Response:
+    * HTTP/1.1 404 Not Found
+    * {
+    *   "error": "Record was not found"
+    * }
+    */
+
+    /**
+     * @param Response $response
+     * @param int $id
+     * @return Response
+     */
     public function update(Request $request, Response $response, Validator $validator, int $id): Response
     {
         $article = Article::find($id);
