@@ -18,7 +18,8 @@
     "league/csv": "8.2.1",
     "tuupola/slim-basic-auth": "3.0.0-rc.1",
     "league/fractal": "0.16.0",
-    "monolog/monolog": "1.23.0"
+    "monolog/monolog": "1.23.0",
+    "predis/predis": "v1.1.1"
   },
   "autoload": {
     "psr-4": {

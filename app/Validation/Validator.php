@@ -3,7 +3,7 @@
 namespace App\Validation;
 
 use Slim\Http\Request;
-use App\Support\Storage\SessionStorage;
+use App\Support\Storage\Session;
 use App\Validation\Contracts\ValidatorInterface;
 use Respect\Validation\Exceptions\NestedValidationException;
 
@@ -12,7 +12,7 @@ class Validator implements ValidatorInterface
     protected $session;
     protected $errors = [];
 
-    public function __construct(SessionStorage $session)
+    public function __construct(Session $session)
     {
         $this->session = $session;
     }

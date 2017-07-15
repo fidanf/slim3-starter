@@ -5,7 +5,7 @@ namespace App\Support\Storage;
 use Countable;
 use App\Support\Storage\Contracts\StorageInterface;
 
-class SessionStorage implements StorageInterface, Countable
+class Session implements StorageInterface, Countable
 {
     protected $storage;
 

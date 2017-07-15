@@ -8,6 +8,7 @@ use App\Database\Transformers\ArticleTransformer;
 use App\Models\Article;
 use App\Validation\{Forms\ArticleForm, Validator};
 use League\Fractal\Resource\{Collection, Item};
+use Predis\Response\ResponseInterface;
 use Slim\Http\{Request, Response};
 use Faker\Factory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -50,10 +51,21 @@ class ArticleController extends Controller
      */
     public function index(Response $response): Response
     {
+        // No caching
+        /*
         $articles = Article::all();
         $resource = new Collection($articles, new ArticleTransformer);
         $data = $this->fractal->createData($resource)->toArray();
         return $response->withJson($data, 200);
+        */
+
+        // Caching for 10 minutes
+        $result =  $this->cache->remember('articles', 10, function() use ($response) {
+            $articles = Article::all();
+            $resource = new Collection($articles, new ArticleTransformer);
+            return $this->fractal->createData($resource)->toJson();
+        });
+        return $response->withHeader('Content-Type','application/json')->withStatus(200)->write($result);
     }
 
 
@@ -103,28 +115,32 @@ class ArticleController extends Controller
     }
 
     /**
-    * @apiGroup Articles
-    * @apiName store
-    * @api {post} /article
-    * @apiParam {String} title The article's title.
-    * @apiParam {Text} body The article's body.
-    * @apiSuccess {Int}                article.id          Article ID.
-    * @apiSuccess {String}             article.title       The article's title.
-    * @apiSuccess {String}             article.body        The article's body.
-    * @apiSuccess {String}             article.published   Since when the article was published/created.
-    * @apiSuccess {String}             article.updated     Since when the article was updated.
-    * @apiDescription Creates an article.
-    * @apiSuccessExample {json} Success-Response:
-    * HTTP/1.1 200 OK
-    * "data": {
-    *      "id": 1,
-    *      "title": "My title",
-    *      "body": "My body",
-    *      "published": "2 seconds before",
-    *      "updated": "2 seconds before"
-    * }
-    */
-    public function store(Request $request, Response $response, Validator $validator)
+     * @apiGroup Articles
+     * @apiName store
+     * @api {post} /article
+     * @apiParam {String} title The article's title.
+     * @apiParam {Text} body The article's body.
+     * @apiSuccess {Int}                article.id          Article ID.
+     * @apiSuccess {String}             article.title       The article's title.
+     * @apiSuccess {String}             article.body        The article's body.
+     * @apiSuccess {String}             article.published   Since when the article was published/created.
+     * @apiSuccess {String}             article.updated     Since when the article was updated.
+     * @apiDescription Creates an article.
+     * @apiSuccessExample {json} Success-Response:
+     * HTTP/1.1 200 OK
+     * "data": {
+     *      "id": 1,
+     *      "title": "My title",
+     *      "body": "My body",
+     *      "published": "2 seconds before",
+     *      "updated": "2 seconds before"
+     * }
+     * @param Request $request
+     * @param Response $response
+     * @param Validator $validator
+     * @return Response
+     */
+    public function store(Request $request, Response $response, Validator $validator): Response
     {
         $validator->validate($request,ArticleForm::getRules());
         if($validator->fails()) {
@@ -170,7 +186,7 @@ class ArticleController extends Controller
      * @param int $id
      * @return Response
      */
-    public function delete(Request $request, Response $response, int $id): Response
+    public function delete(Response $response, int $id): Response
     {
         try {
             $article = Article::findOrfail($id);
@@ -181,16 +197,16 @@ class ArticleController extends Controller
         } 
     }
 
-    public function seed(Response $response, Factory $faker, int $count)
+    public function seed(Response $response, Factory $faker, int $count): Response
     {
         $factory = $faker::create();
+        $articles = [];
         for($i = 0; $i < $count; $i++ ) {
-            $article = Article::create([
+            $articles[] = Article::create([
                 'title' => $factory->realText($factory->numberBetween(10, 50)),
                 'body' => $factory->text(500),
             ]);
         }
-        
-        return $response->withJson($article, 200);
+        return $response->withJson($articles, 200);
     }
 }

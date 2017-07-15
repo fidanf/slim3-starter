@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use Interop\Container\ContainerInterface as Container;
 use App\Database\Eloquent;
-use App\Support\Storage\SessionStorage;
+use App\Support\Storage\Session;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
@@ -16,6 +16,7 @@ abstract class Controller
     protected $flash;
     protected $mail;
     protected $router;
+    protected $cache;
 
     /**
      * Controller constructor.
@@ -25,11 +26,12 @@ abstract class Controller
     {
         $this->view = $container->get(Twig::class);
         $this->db = $container->get(Eloquent::class);
-        $this->session = $container->get(SessionStorage::class);
+        $this->session = $container->get(Session::class);
         $this->flash = $container->get(Messages::class);
         $this->mail = $container->get('mail');
         $this->router = $container->get('router');
         $this->fractal = $container->get('fractal');
+        $this->cache = $container->get('cache');
     }
 
 }

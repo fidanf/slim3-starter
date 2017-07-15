@@ -37,4 +37,9 @@ return [
         'username' => getenv('SMTP_USERNAME'),
         'password' => getenv('SMTP_PASSWORD'),
     ],
+    'redis' => [
+        'host' => getenv('REDIS_HOST'),
+        'port' => getenv('REDIS_PORT'),
+        'password' => getenv('REDIS_PASSWORD'),
+    ]
 ];

@@ -6,16 +6,14 @@ use DI\ContainerBuilder;
 use Interop\Container\ContainerInterface as Container;
 
 use League\Fractal\Manager;
-use Monolog\Handler\FingersCrossedHandler;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use Predis\Client;
 use Slim\Flash\Messages;
+use Monolog\{Handler\FingersCrossedHandler, Handler\StreamHandler, Logger};
+use App\Support\{NotFound, Storage\Cache, Storage\Session, Extensions\VarDump};
 use Slim\Views\{Twig, TwigExtension};
 use Slim\Http\{Request, Response};
-use App\Support\{NotFound, Storage\SessionStorage, Extensions\VarDump};
 use App\Database\Eloquent;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Faker\Factory;
 use Slim\Csrf\Guard;
 use App\Validation\Validator;
 use App\Support\Email\Mailer;
@@ -66,12 +64,12 @@ class App extends \DI\Bridge\Slim\App
                 return new Messages;
             },
 
-            SessionStorage::class => function() {
-                return new SessionStorage;
+            Session::class => function() {
+                return new Session;
             },
 
             Validator::class => function(Container $container) {
-                return new Validator($container->get(SessionStorage::class));
+                return new Validator($container->get(Session::class));
             },
 
             Logger::class => function() {
@@ -107,6 +105,19 @@ class App extends \DI\Bridge\Slim\App
             'fractal' => function () {
                 return new Manager();
             },
+
+            'cache' => function () use ($config) {
+                $client = new Client([
+                    'scheme' => 'tcp',
+                    'host' => $config['redis']['host'],
+                    'port' => $config['redis']['port'],
+                    'password' => $config['redis']['password'],
+                ]);
+
+                return new Cache($client);
+            },
+
+
         ];
 
         $builder->addDefinitions($config['settings']);
