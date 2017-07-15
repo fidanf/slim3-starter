@@ -15,6 +15,7 @@ This source code provides the most essential setup & libraries to help deal with
 - Clean dependency injection & autowiring system with the php-DI bridge for Slim 3
 - Application settings into a .env file
 - Separate API routes & apidoc integration/documentation examples
+- Caching with Redis
 
 ### After cloning the project, type the following commands to build all the dependencies 
 
@@ -26,5 +27,7 @@ This source code provides the most essential setup & libraries to help deal with
 ### Recommended dev environnement : 
 - PhpStorm + Vagrant homestead or Wampserver
 - Mailtrap.io 
+
+If you use homestead's Redis server, edit /etc/redis/redis.conf and fill the requirepass line with your own password.
 
 Feel free to use the dump.sql file in the root directory to try out the form on the homepage and the api routes.
