@@ -127,7 +127,7 @@ class App extends \DI\Bridge\Slim\App
         ];
 
         $builder->addDefinitions($this->definitions);
-//        $builder->addDefinitions(__DIR__ . '/config.php');
+//        $builder->addDefinitions(__DIR__ . '/Config.php');
         $builder->addDefinitions($dependencies);
     }
 }

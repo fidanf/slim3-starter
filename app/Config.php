@@ -5,18 +5,13 @@
  */
 
 return [
-//    'settings' => [
-//        'settings.httpVersion' => '1.1',
-//        'settings.responseChunkSize' => 4096,
-//        'settings.outputBuffering' => 'append',
-//        'settings.determineRouteBeforeAppMiddleware' => true,
-//        'settings.displayErrorDetails' => getenv('APP_DEBUG') === 'true'
-//    ],
+
     'settings.httpVersion' => '1.1',
     'settings.responseChunkSize' => 4096,
     'settings.outputBuffering' => 'append',
     'settings.determineRouteBeforeAppMiddleware' => true,
     'settings.displayErrorDetails' => getenv('APP_DEBUG') === 'true',
+
     'db' => [
         'driver' => getenv('DB_DRIVER'),
         'host' => getenv('DB_HOST'),
