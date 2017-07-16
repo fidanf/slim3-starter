@@ -15,7 +15,7 @@ try {
 
 require_once __DIR__ . './../app/Helpers.php';
 
-$config = require_once __DIR__ . './../app/config.php';
+$config = require_once __DIR__.'./../app/Config.php';
 
 $app = new \App\App($config);
 $container = $app->getContainer();
