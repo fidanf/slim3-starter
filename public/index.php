@@ -15,9 +15,11 @@ try {
 
 require_once __DIR__ . './../app/Helpers.php';
 
-$app = new \App\App;
+$config = require_once __DIR__ . './../app/config.php';
 
+$app = new \App\App($config);
 $container = $app->getContainer();
+
 
 require_once __DIR__ . '/../app/Routes.php';
 

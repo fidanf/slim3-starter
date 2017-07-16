@@ -5,13 +5,18 @@
  */
 
 return [
-    'settings' => [
-        'settings.httpVersion' => '1.1',
-        'settings.responseChunkSize' => 4096,
-        'settings.outputBuffering' => 'append',
-        'settings.determineRouteBeforeAppMiddleware' => true,
-        'settings.displayErrorDetails' => getenv('APP_DEBUG') === 'true'
-    ],
+//    'settings' => [
+//        'settings.httpVersion' => '1.1',
+//        'settings.responseChunkSize' => 4096,
+//        'settings.outputBuffering' => 'append',
+//        'settings.determineRouteBeforeAppMiddleware' => true,
+//        'settings.displayErrorDetails' => getenv('APP_DEBUG') === 'true'
+//    ],
+    'settings.httpVersion' => '1.1',
+    'settings.responseChunkSize' => 4096,
+    'settings.outputBuffering' => 'append',
+    'settings.determineRouteBeforeAppMiddleware' => true,
+    'settings.displayErrorDetails' => getenv('APP_DEBUG') === 'true',
     'db' => [
         'driver' => getenv('DB_DRIVER'),
         'host' => getenv('DB_HOST'),
@@ -22,12 +27,12 @@ return [
         'collation' => 'utf8_unicode_ci',
         'prefix' => '',
     ],
-    'twig_config' => [
+    'twig' => [
         'debug' => true,
 //        'cache' => false,
         'cache' => __DIR__ . '/../cache/',
     ],
-    'mail' => [
+    'swiftmailer' => [
         'host' => getenv('SMTP_HOST'),
         'port' => getenv('SMTP_PORT'),
         'from' => [

@@ -10,6 +10,7 @@ use Predis\Client;
 use Slim\Flash\Messages;
 use Monolog\{Handler\FingersCrossedHandler, Handler\StreamHandler, Logger};
 use App\Support\{NotFound, Storage\Cache, Storage\Session, Extensions\VarDump};
+use Slim\Interfaces\RouterInterface;
 use Slim\Views\{Twig, TwigExtension};
 use Slim\Http\{Request, Response};
 use App\Database\Eloquent;
@@ -25,13 +26,23 @@ use Swift_Mailer;
 class App extends \DI\Bridge\Slim\App
 {
 
-    protected function configureContainer(ContainerBuilder $builder)
-    {
-        $config = require_once __DIR__ . '/Settings.php';
+    private $definitions;
 
+    /**
+     * App constructor.
+     * @param $definitions
+     */
+    public function __construct(array $definitions = null)
+    {
+        $this->definitions = $definitions;
+        parent::__construct();
+    }
+
+    protected function configureContainer(ContainerBuilder $builder): void
+    {
         $dependencies = [
-            Twig::class => function (Container $container) use ($config) {
-                $view = new Twig(['../resources/views', '../resources/assets'], $config['twig_config']);
+            Twig::class => function (Container $container) {
+                $view = new Twig(['../resources/views', '../resources/assets'], $container->get('twig'));
                 $view->addExtension(new TwigExtension(
                     $container->get('router'),
                     $container->get('request')->getUri()
@@ -43,9 +54,9 @@ class App extends \DI\Bridge\Slim\App
                 return $view;
             },
 
-            Eloquent::class => function () use ($config)  {
+            Eloquent::class => function (Container $container)  {
                  $capsule = new Capsule;
-                 $capsule->addConnection($config['db']);
+                 $capsule->addConnection($container->get('db'));
                  $capsule->setAsGlobal();
                  $capsule->bootEloquent();
                  return $capsule;
@@ -62,10 +73,6 @@ class App extends \DI\Bridge\Slim\App
 
             Messages::class => function() {
                 return new Messages;
-            },
-
-            Session::class => function() {
-                return new Session;
             },
 
             Validator::class => function(Container $container) {
@@ -86,32 +93,31 @@ class App extends \DI\Bridge\Slim\App
                 return new NotFound($container->get(Twig::class));
             },
 
-            'errorHandler' => function(Container $container) use ($config) {
-                return new Support\Error($config['settings']['settings.displayErrorDetails'],$container->get(Logger::class));
+            'errorHandler' => function(Container $container) {
+                return new Support\Error($container->get('settings.displayErrorDetails'),$container->get(Logger::class));
             },
 
-            'mail' => function (Container $container) use ($config) {
-
-                $transport = (Swift_SmtpTransport::newInstance($config['mail']['host'], $config['mail']['port']))
-                    ->setUsername($config['mail']['username'])
-                    ->setPassword($config['mail']['password']);
+            'mail' => function (Container $container) {
+                $transport = (Swift_SmtpTransport::newInstance($container->get('swiftmailer')['host'], $container->get('swiftmailer')['port']))
+                    ->setUsername($container->get('swiftmailer')['username'])
+                    ->setPassword($container->get('swiftmailer')['password']);
 
                 $swift = Swift_Mailer::newInstance($transport);
 
                 return (new Mailer($swift, $container->get(Twig::class)))
-                    ->alwaysFrom($config['mail']['from']['address'], $config['mail']['from']['name']);
+                    ->alwaysFrom($container->get('swiftmailer')['from']['address'], $container->get('swiftmailer')['from']['name']);
             },
 
-            'fractal' => function () {
-                return new Manager();
-            },
+//            'fractal' => function () {*
+//                return new Manager();
+//            },
 
-            'cache' => function () use ($config) {
+            'cache' => function (Container $container) {
                 $client = new Client([
                     'scheme' => 'tcp',
-                    'host' => $config['redis']['host'],
-                    'port' => $config['redis']['port'],
-                    'password' => $config['redis']['password'],
+                    'host' => $container->get('redis')['host'],
+                    'port' => $container->get('redis')['port'],
+                    'password' => $container->get('redis')['password'],
                 ]);
 
                 return new Cache($client);
@@ -120,7 +126,8 @@ class App extends \DI\Bridge\Slim\App
 
         ];
 
-        $builder->addDefinitions($config['settings']);
+        $builder->addDefinitions($this->definitions);
+//        $builder->addDefinitions(__DIR__ . '/config.php');
         $builder->addDefinitions($dependencies);
     }
 }
