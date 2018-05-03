@@ -6,12 +6,13 @@ This source code provides the most essential setup & libraries to help deal with
 - Full form validation features with custom rules and errors
 - Events and listeners/handlers based on the SPL library
 - Data persistance via ORM (Eloquent)
-- Pagination using Eloquent
+- Pagination
+- Twig as a template engine
 - Email delivery system using the popular Swiftmailer library
 - CSRF protection for web routes
 - 403/404 errors catching with custom views
-- Assets management with Bower & Gulp
-- Handy debug() function using symfony/vardumper library
+- Assets management with Webpack
+- Handy debug() function using the symfony/vardumper library
 - Clean dependency injection & autowiring system with the php-DI bridge for Slim 3
 - Application settings into a .env file
 - Separate API routes & apidoc integration/documentation examples
@@ -21,8 +22,6 @@ This source code provides the most essential setup & libraries to help deal with
 
       composer install
       npm install
-      bower install
-      gulp
      
 ### Recommended dev environnement : 
 - PhpStorm + Vagrant homestead or Wampserver

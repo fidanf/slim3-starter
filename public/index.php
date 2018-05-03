@@ -13,13 +13,14 @@ try {
     die($e);
 }
 
-require_once __DIR__ . './../app/Helpers.php';
-
-$config = require_once __DIR__.'./../app/Config.php';
-
-$app = new \App\App($config);
+$app = new \App\App([
+    'settings.httpVersion' => '1.1',
+    'settings.responseChunkSize' => 4096,
+    'settings.outputBuffering' => 'append',
+    'settings.determineRouteBeforeAppMiddleware' => true,
+    'settings.displayErrorDetails' => getenv('APP_ENV') === 'dev',
+]);
 $container = $app->getContainer();
-
 
 require_once __DIR__ . '/../app/Routes.php';
 

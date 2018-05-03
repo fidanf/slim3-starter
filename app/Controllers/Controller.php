@@ -26,10 +26,10 @@ abstract class Controller
     public function __construct(Container $container)
     {
         $this->view = $container->get(Twig::class);
-        $this->db = $container->get(Eloquent::class);
         $this->session = $container->get(Session::class);
         $this->flash = $container->get(Messages::class);
         $this->fractal = $container->get(Manager::class);
+        $this->db = $container->get('database');
         $this->mail = $container->get('mail');
         $this->router = $container->get('router');
         $this->cache = $container->get('cache');

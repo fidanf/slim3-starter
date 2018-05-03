@@ -5,6 +5,7 @@
  */
 
 use App\Support\Extensions\ViewFactory;
+use Respect\Validation\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\VarDumper\{VarDumper, Dumper\HtmlDumper, Cloner\VarCloner};
@@ -44,3 +45,5 @@ Paginator::currentPathResolver(function (){
 Paginator::currentPageResolver(function (){
    return $_GET['page'] ?? 1;
 });
+
+Validator::with('App\Validation\Rules');

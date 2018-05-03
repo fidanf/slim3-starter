@@ -2,7 +2,6 @@
 vendor/
 doc/
 composer.lock
-bower_components/
 node_modules/
 .env
 package-lock.json

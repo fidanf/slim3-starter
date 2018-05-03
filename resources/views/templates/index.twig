@@ -11,12 +11,12 @@
                 <div class="col-md-4">
                     <div class="form-group  {{ errors.name ? 'has-error' : '' }}">
                         <label for="name" class="control-label">Name :</label>
-                        <input class="form-control" type="text" name="name" id="name"  value="">
+                        <input class="form-control" type="text" name="name" id="name"  value="{{ old.name }}">
                         {% if errors.name %}<span class="helpblock">{{ errors.name | first }}</span>{% endif %}
                     </div>
                     <div class="form-group {{ errors.email ? 'has-error' : '' }}">
                         <label for="email" class="control-label">Email :</label>
-                        <input class="form-control" type="text" name="email" id="email" value="">
+                        <input class="form-control" type="text" name="email" id="email" value="{{ old.email }}">
                         {% if errors.email %}<span class="helpblock">{{ errors.email | first }}</span>{% endif %}
                     </div>
                     <div class="form-group  {{ errors.password ? 'has-error' : '' }}">

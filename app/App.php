@@ -2,26 +2,25 @@
 
 namespace App;
 
-use DI\ContainerBuilder;
-use Interop\Container\ContainerInterface as Container;
-
-use League\Fractal\Manager;
-use Predis\Client;
-use Slim\Flash\Messages;
-use Monolog\{Handler\FingersCrossedHandler, Handler\StreamHandler, Logger};
+use App\Database\Eloquent;
+use App\Support\Email\Mailer;
 use App\Support\{NotFound, Storage\Cache, Storage\Session, Extensions\VarDump};
+use App\Validation\Validator;
+use DI\ContainerBuilder;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Interop\Container\ContainerInterface as Container;
+use League\Fractal\Manager;
+use Monolog\{Handler\FingersCrossedHandler, Handler\StreamHandler, Logger};
+use Noodlehaus\Config;
+use Predis\Client;
+use Slim\Csrf\Guard;
+use Slim\Flash\Messages;
+use Slim\Http\{Request, Response};
 use Slim\Interfaces\RouterInterface;
 use Slim\Views\{Twig, TwigExtension};
-use Slim\Http\{Request, Response};
-use App\Database\Eloquent;
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Slim\Csrf\Guard;
-use App\Validation\Validator;
-use App\Support\Email\Mailer;
-use Twig_Extension_Debug;
-use Swift_SmtpTransport;
 use Swift_Mailer;
-
+use Swift_SmtpTransport;
+use Twig_Extension_Debug;
 
 class App extends \DI\Bridge\Slim\App
 {
@@ -41,22 +40,27 @@ class App extends \DI\Bridge\Slim\App
     protected function configureContainer(ContainerBuilder $builder): void
     {
         $dependencies = [
-            Twig::class => function (Container $container) {
-                $view = new Twig(['../resources/views', '../resources/assets'], $container->get('twig'));
+
+            Config::class => function () {
+                return new Config(__DIR__ . './Config.php');
+            },
+            
+            Twig::class => function (Container $c, Config $config) {
+                $view = new Twig(['../resources/views', '../resources/assets'], $config->get('twig'));
                 $view->addExtension(new TwigExtension(
-                    $container->get('router'),
-                    $container->get('request')->getUri()
+                    $c->get('router'),
+                    $c->get('request')->getUri()
                 ));
                 $view->addExtension(new Twig_Extension_Debug());
                 $view->addExtension(new VarDump());
                 $view->getEnvironment()->addGlobal('APP_NAME', getenv('APP_NAME'));
-                $view->getEnvironment()->addGlobal('flash', $container->get(Messages::class));
+                $view->getEnvironment()->addGlobal('flash', $c->get(Messages::class));
                 return $view;
             },
 
-            Eloquent::class => function (Container $container)  {
+            'database' => function (Config $config)  {
                  $capsule = new Capsule;
-                 $capsule->addConnection($container->get('db'));
+                 $capsule->addConnection($config->get('db'));
                  $capsule->setAsGlobal();
                  $capsule->bootEloquent();
                  return $capsule;
@@ -75,13 +79,13 @@ class App extends \DI\Bridge\Slim\App
                 return new Messages;
             },
 
-            Validator::class => function(Container $container) {
-                return new Validator($container->get(Session::class));
+            Validator::class => function(Container $c) {
+                return new Validator($c->get(Session::class));
             },
 
             Logger::class => function() {
                 $logger = new Logger('logger');
-                $filename = __DIR__ . '/../logs/error.log';
+                $filename = __DIR__ . '/../storage/logs/error.log';
                 $stream = new StreamHandler($filename, Logger::DEBUG);
                 $fingersCrossed = new FingersCrossedHandler(
                     $stream, Logger::ERROR);
@@ -89,35 +93,40 @@ class App extends \DI\Bridge\Slim\App
                 return $logger;
             },
 
-            'notFoundHandler' => function(Container $container){
-                return new NotFound($container->get(Twig::class));
+            'notFoundHandler' => function(Container $c){
+                return new NotFound($c->get(Twig::class));
             },
 
-            'errorHandler' => function(Container $container) {
-                return new Support\Error($container->get('settings.displayErrorDetails'),$container->get(Logger::class));
+            'errorHandler' => function(Container $c) {
+                return new Support\Error(
+                    $c->get('settings.displayErrorDetails'),
+                    $c->get(Logger::class)
+                );
             },
 
-            'mail' => function (Container $container) {
-                $transport = (Swift_SmtpTransport::newInstance($container->get('swiftmailer')['host'], $container->get('swiftmailer')['port']))
-                    ->setUsername($container->get('swiftmailer')['username'])
-                    ->setPassword($container->get('swiftmailer')['password']);
+            'mail' => function (Container $container, Config $config) {
+                $transport = (Swift_SmtpTransport::newInstance(
+                    $config->get('swiftmailer.host'), 
+                    $config->get('swiftmailer.port')
+                ))
+                ->setUsername($config->get('swiftmailer.username'))
+                ->setPassword($config->get('swiftmailer.password'));
 
                 $swift = Swift_Mailer::newInstance($transport);
 
                 return (new Mailer($swift, $container->get(Twig::class)))
-                    ->alwaysFrom($container->get('swiftmailer')['from']['address'], $container->get('swiftmailer')['from']['name']);
+                    ->alwaysFrom(
+                        $config->get('swiftmailer.from.address'),
+                        $config->get('swiftmailer.from.name')
+                    );
             },
 
-//            'fractal' => function () {*
-//                return new Manager();
-//            },
-
-            'cache' => function (Container $container) {
+            'cache' => function (Config $config) {
                 $client = new Client([
                     'scheme' => 'tcp',
-                    'host' => $container->get('redis')['host'],
-                    'port' => $container->get('redis')['port'],
-                    'password' => $container->get('redis')['password'],
+                    'host' => $config->get('redis.host'),
+                    'port' => $config->get('redis.port'),
+                    'password' => $config->get('redis.password'),
                 ]);
 
                 return new Cache($client);
@@ -127,7 +136,6 @@ class App extends \DI\Bridge\Slim\App
         ];
 
         $builder->addDefinitions($this->definitions);
-//        $builder->addDefinitions(__DIR__ . '/Config.php');
         $builder->addDefinitions($dependencies);
     }
 }

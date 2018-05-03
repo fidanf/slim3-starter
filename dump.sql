@@ -34,7 +34,7 @@ CREATE TABLE `articles` (
   `body` text,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `articles`

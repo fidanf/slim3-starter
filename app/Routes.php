@@ -3,7 +3,7 @@
 use App\Controllers\Articles\ArticleController;
 use App\Controllers\HomeController;
 use App\Middlewares\{CsrfMiddleware, OldInputMiddleware, ValidationErrorsMiddleware};
-use Respect\Validation\Validator;
+use Tuupola\Middleware\HttpBasicAuthentication;
 
 /**
  * Web Routes
@@ -35,4 +35,3 @@ $app->group('/api', function() {
 $app->add(ValidationErrorsMiddleware::class);
 $app->add(OldInputMiddleware::class);
 $app->add($container->get(\Slim\Csrf\Guard::class));
-Validator::with("App\Validation\Rules");
