@@ -26,7 +26,8 @@
         "illuminate/pagination": "v5.4.19",
         "league/fractal": "0.16.0",
         "monolog/monolog": "1.23.0",
-        "predis/predis": "v1.1.1"
+        "predis/predis": "v1.1.1",
+        "robmorgan/phinx": "^0.9.2"
     },
     "require-dev": {
         "symfony/var-dumper": "^3.2",

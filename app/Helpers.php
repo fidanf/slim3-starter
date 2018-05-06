@@ -47,3 +47,4 @@ Paginator::currentPageResolver(function (){
 });
 
 Validator::with('App\Validation\Rules');
+
