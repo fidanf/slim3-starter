@@ -1,0 +1,28 @@
+<?php
+$namespaceDefinition
+
+use $useClassName;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
+
+
+/**
+ * PHPStorm helper
+ * @property Builder schema
+ * @property Blueprint table
+ */
+class $className extends $baseClassName
+{
+    public function up()
+    {
+        $this->schema->create('', function (Blueprint $table) {
+           //
+        });
+    }
+
+    public function down()
+    {
+        $this->schema->drop('');
+    }
+
+}
