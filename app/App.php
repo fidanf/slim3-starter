@@ -2,21 +2,18 @@
 
 namespace App;
 
-use App\Database\Eloquent;
 use App\Support\Email\Mailer;
 use App\Support\{NotFound, Storage\Cache, Storage\Session, Extensions\VarDump};
 use App\Validation\Validator;
 use DI\ContainerBuilder;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Interop\Container\ContainerInterface as Container;
-use League\Fractal\Manager;
 use Monolog\{Handler\FingersCrossedHandler, Handler\StreamHandler, Logger};
 use Noodlehaus\Config;
 use Predis\Client;
 use Slim\Csrf\Guard;
 use Slim\Flash\Messages;
 use Slim\Http\{Request, Response};
-use Slim\Interfaces\RouterInterface;
 use Slim\Views\{Twig, TwigExtension};
 use Swift_Mailer;
 use Swift_SmtpTransport;
@@ -42,7 +39,7 @@ class App extends \DI\Bridge\Slim\App
         $dependencies = [
 
             Config::class => function () {
-                return new Config(__DIR__ . './Config.php');
+                return new Config(__DIR__ . '/Config.php');
             },
             
             Twig::class => function (Container $c, Config $config) {
