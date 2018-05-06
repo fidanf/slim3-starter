@@ -2,6 +2,8 @@
 {% block content %}
 
     <h1>List of articles</h1>
+    {% if articles|length %}
+
     <ul>
         {% for article in  articles %}
             <li><a href="{{ path_for('article.show', {id: article.id} ) }}">{{ article.title }}</a></li>
@@ -9,6 +11,12 @@
     </ul>
 
     {{ articles.links | raw }}
+
+    {% else %}
+
+        <p>No articles found.</p>
+
+    {% endif %}
 
 {% endblock %}
 
