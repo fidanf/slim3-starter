@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use Interop\Container\ContainerInterface as Container;
-use App\Database\Eloquent;
 use App\Support\Storage\Session;
 use League\Fractal\Manager;
 use Slim\Flash\Messages;
