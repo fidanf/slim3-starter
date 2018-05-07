@@ -38,11 +38,11 @@ class App extends \DI\Bridge\Slim\App
     {
         $dependencies = [
 
-            Config::class => function () {
+            Config::class => function() {
                 return new Config(__DIR__ . '/Config.php');
             },
             
-            Twig::class => function (Container $c, Config $config) {
+            Twig::class => function(Container $c, Config $config) {
                 $view = new Twig(['../resources/views', '../resources/assets'], $config->get('twig'));
                 $view->addExtension(new TwigExtension(
                     $c->get('router'),
@@ -54,14 +54,6 @@ class App extends \DI\Bridge\Slim\App
                 $view->getEnvironment()->addGlobal('flash', $c->get(Messages::class));
                 return $view;
             },
-
-            'database' => function (Config $config)  {
-                 $capsule = new Capsule;
-                 $capsule->addConnection($config->get('db'));
-                 $capsule->setAsGlobal();
-                 $capsule->bootEloquent();
-                 return $capsule;
-             },
 
             Guard::class => function() {
                 $guard = new Guard;
@@ -90,6 +82,14 @@ class App extends \DI\Bridge\Slim\App
                 return $logger;
             },
 
+            'database' => function(Config $config)  {
+                 $capsule = new Capsule;
+                 $capsule->addConnection($config->get('db'));
+                 $capsule->setAsGlobal();
+                 $capsule->bootEloquent();
+                 return $capsule;
+             },
+
             'notFoundHandler' => function(Container $c){
                 return new NotFound($c->get(Twig::class));
             },
@@ -101,7 +101,7 @@ class App extends \DI\Bridge\Slim\App
                 );
             },
 
-            'mail' => function (Container $container, Config $config) {
+            'mail' => function(Container $container, Config $config) {
                 $transport = (Swift_SmtpTransport::newInstance(
                     $config->get('swiftmailer.host'), 
                     $config->get('swiftmailer.port')
@@ -118,7 +118,7 @@ class App extends \DI\Bridge\Slim\App
                     );
             },
 
-            'cache' => function (Config $config) {
+            'cache' => function(Config $config) {
                 $client = new Client([
                     'scheme' => 'tcp',
                     'host' => $config->get('redis.host'),

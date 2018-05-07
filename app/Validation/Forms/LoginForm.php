@@ -12,7 +12,7 @@ class LoginForm implements FormInterface
     public static function getRules(): array
     {
         return [
-            'name' => v::alpha(),
+            'username' => v::alpha(),
             'email' => V::notEmpty()->email()->emailAvailable(),
             'password' => V::notEmpty()->alnum()->noWhiteSpace()
         ];
