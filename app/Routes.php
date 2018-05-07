@@ -1,18 +1,18 @@
 <?php
 
-use App\Controllers\Articles\ArticleController;
-use App\Controllers\HomeController;
+use App\Controllers\Web\HomeController;
+use App\Controllers\Api\Articles\ArticleController as ApiArticleController;
+use App\Controllers\Web\Articles\ArticleController;
 use App\Middlewares\{CsrfMiddleware, OldInputMiddleware, ValidationErrorsMiddleware};
-use Tuupola\Middleware\HttpBasicAuthentication;
 
 /**
  * Web Routes
  */
 
-$app->group('/', function () {
+$app->group('/', function() {
 	$this->map(['GET', 'POST'],'', [HomeController::class, 'index'])->setName('home');
-	$this->get('article', [HomeController::class, 'list'])->setname('article.index');
-	$this->get('article/{id}', [HomeController::class, 'show'])->setname('article.show');
+	$this->get('article', [ArticleController::class, 'list'])->setname('article.index');
+	$this->get('article/{id}', [ArticleController::class, 'show'])->setname('article.show');
 })->add(CsrfMiddleware::class);
 
 /**
@@ -20,12 +20,11 @@ $app->group('/', function () {
  */
 $app->group('/api', function() {
     $this->group('/article', function () {
-        $this->get('', [ArticleController::class, 'index']);
-        $this->post('', [ArticleController::class, 'store']);
-        $this->get('/{id:[0-9]+}', [ArticleController::class, 'show']);
-        $this->put('/{id:[0-9]+}', [ArticleController::class, 'update']);
-        $this->delete('/{id:[0-9]+}', [ArticleController::class, 'delete']);
-        $this->get('/seed/{count:[0-9]+}', [ArticleController::class, 'seed']);
+        $this->get('', [ApiArticleController::class, 'index']);
+        $this->post('', [ApiArticleController::class, 'store']);
+        $this->get('/{id:[0-9]+}', [ApiArticleController::class, 'show']);
+        $this->put('/{id:[0-9]+}', [ApiArticleController::class, 'update']);
+        $this->delete('/{id:[0-9]+}', [ApiArticleController::class, 'delete']);
     });
 });
 

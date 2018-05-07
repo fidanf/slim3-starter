@@ -1,11 +1,11 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\Web;
 
+use App\Controllers\Controller;
 use App\Events\Handlers\CreateUserRecord;
 use App\Events\Handlers\EmailConfirmedRegistration;
 use App\Events\UserRegisterEvent;
-use App\Models\Article;
 use App\Models\User;
 use App\Validation\{Forms\LoginForm, Validator};
 use Psr\Http\Message\ResponseInterface;
@@ -24,7 +24,7 @@ class HomeController extends Controller {
             }
 
             $user = new User;
-            $user->name = $request->getParam('name');
+            $user->username = $request->getParam('username');
             $user->email = $request->getParam('email');
             $user->password = password_hash($request->getParam('password'), PASSWORD_BCRYPT);
 
@@ -40,17 +40,6 @@ class HomeController extends Controller {
         return $this->view->render($response,'templates/index.twig');
 	}
 
-    public function list(Request $request, Response $response): ResponseInterface
-    {
-        $perPage = $request->getParam('perPage') ?? 5;
-        $articles = Article::paginate($perPage)->appends($request->getParams());
-        return $this->view->render($response, 'templates/articles/article.index.twig', compact('articles'));
-    }
 
-    public function show(Response $response, int $id): ResponseInterface
-    {
-        $article = Article::find($id);
-        return $this->view->render($response, 'templates/articles/article.show.twig', compact('article'));
-    }
 
 }
