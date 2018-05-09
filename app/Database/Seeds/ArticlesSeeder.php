@@ -1,6 +1,5 @@
 <?php
 
-
 use Faker\Factory;
 use Phinx\Seed\AbstractSeed;
 
@@ -22,6 +21,7 @@ class ArticlesSeeder extends AbstractSeed
             $data[] = [
                 'title'         => $faker->sentence,
                 'body'          => $faker->realText,
+                'slug'          => $faker->slug,
                 'created_at'    => (new \DateTime)->format('Y-m-d H:i:s'),
                 'updated_at'    => (new \DateTime)->format('Y-m-d H:i:s')
             ];

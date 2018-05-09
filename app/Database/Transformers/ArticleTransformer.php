@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Database\Transformers;
 
 use App\Models\Article;
 use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
-
 
 class ArticleTransformer extends TransformerAbstract
 {
@@ -15,6 +13,7 @@ class ArticleTransformer extends TransformerAbstract
         return [
             'id' => $article->id,
             'title' => $article->title,
+            'slug' => $article->slug,
             'body' => $article->body,
             'published' => $article->created_at->diffForHumans(Carbon::now()),
             'updated' => $article->updated_at->diffForHumans(Carbon::now()),

@@ -5,8 +5,10 @@ namespace App;
 use App\Support\Email\Mailer;
 use App\Support\{NotFound, Storage\Cache, Storage\Session, Extensions\VarDump};
 use App\Validation\Validator;
+use Cocur\Slugify\Slugify;
 use DI\ContainerBuilder;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Events\Dispatcher;
 use Interop\Container\ContainerInterface as Container;
 use Monolog\{Handler\FingersCrossedHandler, Handler\StreamHandler, Logger};
 use Noodlehaus\Config;
@@ -76,18 +78,19 @@ class App extends \DI\Bridge\Slim\App
                 $logger = new Logger('logger');
                 $filename = __DIR__ . '/../storage/logs/error.log';
                 $stream = new StreamHandler($filename, Logger::DEBUG);
-                $fingersCrossed = new FingersCrossedHandler(
-                    $stream, Logger::ERROR);
+                $fingersCrossed = new FingersCrossedHandler($stream, Logger::ERROR);
                 $logger->pushHandler($fingersCrossed);
                 return $logger;
             },
 
             'database' => function(Config $config)  {
-                 $capsule = new Capsule;
-                 $capsule->addConnection($config->get('db'));
-                 $capsule->setAsGlobal();
-                 $capsule->bootEloquent();
-                 return $capsule;
+                $capsule = new Capsule;
+                $capsule->setEventDispatcher(new Dispatcher);
+                $capsule->addConnection($config->get('db'));
+                $capsule->setAsGlobal();
+                $capsule->bootEloquent();
+                
+                return $capsule;
              },
 
             'notFoundHandler' => function(Container $c){
