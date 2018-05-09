@@ -6,7 +6,7 @@ use Slim\Http\{Request, Response};
 
 class OldInputMiddleware extends Middleware
 {
-    public function __invoke(Request $request, Response $response, $next)
+    public function __invoke(Request $request, Response $response, callable $next): Response
     {
         $this->view->getEnvironment()->addGlobal('old', $this->session->get('old'));
         $this->session->set('old', $request->getParams());

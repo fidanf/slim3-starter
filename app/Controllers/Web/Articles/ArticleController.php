@@ -15,7 +15,7 @@ class ArticleController extends Controller {
         $articles = Article::paginate($perPage)->appends($request->getParams());
         return $this->view->render($response, 'templates/articles/article.index.twig', compact('articles'));
     }
-    public function show(Response $response, int $id): ResponseInterface
+    public function show(Response $response, int $id)
     {
         $article = Article::find($id);
         return $this->view->render($response, 'templates/articles/article.show.twig', compact('article'));

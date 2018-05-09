@@ -7,7 +7,7 @@ use Slim\Http\{Request, Response};
 class CsrfMiddleware extends Middleware
 {
 
-    public function __invoke(Request $request, Response $response, callable $next)
+    public function __invoke(Request $request, Response $response, callable $next): Response
     {
 
         $this->view->getEnvironment()->addGlobal('csrf', [

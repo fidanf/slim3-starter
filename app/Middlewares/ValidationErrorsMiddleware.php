@@ -6,7 +6,7 @@ use Slim\Http\{Request, Response};
 
 class ValidationErrorsMiddleware extends Middleware
 {
-    public function __invoke(Request $request, Response $response, $next)
+    public function __invoke(Request $request, Response $response, callable $next): Response
     {
         $errors = $this->session->get('errors');
         if($errors) {

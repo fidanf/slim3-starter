@@ -5,9 +5,9 @@
  */
 
 use App\Support\Extensions\ViewFactory;
-use Respect\Validation\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Respect\Validation\Validator;
 use Symfony\Component\VarDumper\{VarDumper, Dumper\HtmlDumper, Cloner\VarCloner};
 
 function debug()
@@ -47,4 +47,3 @@ Paginator::currentPageResolver(function (){
 });
 
 Validator::with('App\Validation\Rules');
-

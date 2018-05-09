@@ -3,10 +3,9 @@
 namespace App\Controllers\Web;
 
 use App\Controllers\Controller;
-use App\Events\Handlers\CreateUserRecord;
-use App\Events\Handlers\EmailConfirmedRegistration;
-use App\Events\UserRegisterEvent;
 use App\Models\User;
+use App\Events\UserRegisterEvent;
+use App\Events\Handlers\{CreateUserRecord, EmailConfirmedRegistration};
 use App\Validation\{Forms\LoginForm, Validator};
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\{Response, Request};
@@ -17,7 +16,7 @@ class HomeController extends Controller {
 	{
 	    if($request->isPost()) {
             $validator->validate($request, LoginForm::getRules());
-            
+
             if($validator->fails()) {
                 $this->flash->addMessage('error', 'Errors while creating the user.');
                 return $response->withRedirect($this->router->pathFor('home'));
@@ -34,6 +33,7 @@ class HomeController extends Controller {
             $event->notify();
 
             $this->flash->addMessage('success', 'User was created!');
+
             return $response->withRedirect($this->router->pathFor('home'));
         }
 

@@ -20,6 +20,7 @@ $app = new \App\App([
     'settings.determineRouteBeforeAppMiddleware' => true,
     'settings.displayErrorDetails' => getenv('APP_ENV') === 'dev',
 ]);
+
 $container = $app->getContainer();
 
 require_once __DIR__ . '/../app/Routes.php';

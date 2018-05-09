@@ -11,11 +11,17 @@ use Slim\Views\Twig;
 abstract class Controller
 {
     protected $view;
+
     protected $db;
+
     protected $session;
+
     protected $flash;
+
     protected $mail;
+
     protected $router;
+    
     protected $cache;
 
     /**

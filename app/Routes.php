@@ -1,8 +1,8 @@
 <?php
 
-use App\Controllers\Web\HomeController;
 use App\Controllers\Api\Articles\ArticleController as ApiArticleController;
 use App\Controllers\Web\Articles\ArticleController;
+use App\Controllers\Web\HomeController;
 use App\Middlewares\{CsrfMiddleware, OldInputMiddleware, ValidationErrorsMiddleware};
 
 /**
@@ -18,6 +18,7 @@ $app->group('/', function() {
 /**
  * Api Routes
  */
+
 $app->group('/api', function() {
     $this->group('/article', function () {
         $this->get('', [ApiArticleController::class, 'index']);
@@ -31,6 +32,8 @@ $app->group('/api', function() {
 /**
  * Global Middlewares
  */
+
 $app->add(ValidationErrorsMiddleware::class);
 $app->add(OldInputMiddleware::class);
 $app->add($container->get(\Slim\Csrf\Guard::class));
+

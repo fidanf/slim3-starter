@@ -11,7 +11,9 @@ use Slim\Views\Twig;
 abstract class Middleware
 {
     protected $view;
+
     protected $session;
+    
     protected $csrf;
 
     public function __construct(Container $container)
