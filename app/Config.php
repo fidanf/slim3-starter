@@ -19,7 +19,7 @@ return [
     ],
     'twig' => [
         'debug' => getenv('APP_ENV') === 'dev',
-        'cache' => getenv('APP_ENV') === 'dev' ? false : __DIR__ . '/../storage/cache/'
+        'cache' => getenv('APP_ENV') === 'dev' ? false : base_path('storage') . '/cache/'
     ],
     'swiftmailer' => [
         'host' => getenv('SMTP_HOST'),

@@ -12,7 +12,7 @@ use App\Middlewares\{CsrfMiddleware, OldInputMiddleware, ValidationErrorsMiddlew
 $app->group('/', function() {
 	$this->map(['GET', 'POST'],'', [HomeController::class, 'index'])->setName('home');
 	$this->get('article', [ArticleController::class, 'list'])->setname('article.index');
-	$this->get('article/{id}', [ArticleController::class, 'show'])->setname('article.show');
+	$this->get('article/{id:[0-9]+}', [ArticleController::class, 'show'])->setname('article.show');
 })->add(CsrfMiddleware::class);
 
 /**

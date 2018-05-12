@@ -41,19 +41,25 @@ class App extends \DI\Bridge\Slim\App
         $dependencies = [
 
             Config::class => function() {
-                return new Config(__DIR__ . '/Config.php');
+                return new Config(base_path('app') . '/Config.php');
             },
             
             Twig::class => function(Container $c, Config $config) {
-                $view = new Twig(['../resources/views', '../resources/assets'], $config->get('twig'));
+                $view = new Twig([
+                    base_path('resources') . '/views',
+                    base_path('resources') . '/assets'
+                ], $config->get('twig'));
+
                 $view->addExtension(new TwigExtension(
                     $c->get('router'),
                     $c->get('request')->getUri()
                 ));
+
                 $view->addExtension(new Twig_Extension_Debug());
                 $view->addExtension(new VarDump());
                 $view->getEnvironment()->addGlobal('APP_NAME', getenv('APP_NAME'));
                 $view->getEnvironment()->addGlobal('flash', $c->get(Messages::class));
+
                 return $view;
             },
 
@@ -63,6 +69,7 @@ class App extends \DI\Bridge\Slim\App
                     $request = $request->withAttribute('csrf_status', false);
                     return $next($request, $response);
                 });
+
                 return $guard;
             },
 
@@ -76,10 +83,11 @@ class App extends \DI\Bridge\Slim\App
 
             Logger::class => function() {
                 $logger = new Logger('logger');
-                $filename = __DIR__ . '/../storage/logs/error.log';
+                $filename = base_path('storage') . '/logs/error.log';
                 $stream = new StreamHandler($filename, Logger::DEBUG);
                 $fingersCrossed = new FingersCrossedHandler($stream, Logger::ERROR);
                 $logger->pushHandler($fingersCrossed);
+
                 return $logger;
             },
 
