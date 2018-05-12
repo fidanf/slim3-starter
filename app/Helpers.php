@@ -41,17 +41,17 @@ VarDumper::setHandler(function ($var) {
     $dumper->dump($cloner->cloneVar($var));
 });
 
-LengthAwarePaginator::viewFactoryResolver(function (){
+LengthAwarePaginator::viewFactoryResolver(function () {
     return new ViewFactory;
 });
 
 LengthAwarePaginator::defaultView('pagination/defaultPagination.twig');
 
-Paginator::currentPathResolver(function (){
+Paginator::currentPathResolver(function () {
     return isset($_SERVER['REQUEST_URI']) ? strtok($_SERVER['REQUEST_URI'], '?') : '/';
 });
 
-Paginator::currentPageResolver(function (){
+Paginator::currentPageResolver(function () {
    return $_GET['page'] ?? 1;
 });
 
