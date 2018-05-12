@@ -23,6 +23,6 @@ $app = new \App\App([
 
 $container = $app->getContainer();
 
-require_once __DIR__ . '/../app/Routes.php';
+require_once base_path('app/Routes.php');
 
 $app->run();
