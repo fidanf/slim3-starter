@@ -8,7 +8,7 @@ setlocale (LC_TIME, 'fr_FR.utf8','fra');
 require __DIR__ . '/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
+    (new Dotenv\Dotenv(base_path()))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     die($e);
 }
