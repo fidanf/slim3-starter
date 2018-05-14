@@ -5,7 +5,6 @@ namespace App;
 use App\Support\Email\Mailer;
 use App\Support\{NotFound, Storage\Cache, Storage\Session, Extensions\VarDump};
 use App\Validation\Validator;
-use Cocur\Slugify\Slugify;
 use DI\ContainerBuilder;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
