@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Database\DatabaseInterface;
+use App\Database\Eloquent;
 use App\Support\Email\Mailer;
 use App\Support\{NotFound, Storage\Cache, Storage\Session, Extensions\VarDump};
 use App\Validation\Validator;
@@ -90,8 +92,8 @@ class App extends \DI\Bridge\Slim\App
                 return $logger;
             },
 
-            'database' => function(Config $config)  {
-                $capsule = new Capsule;
+            DatabaseInterface::class => function(Config $config)  {
+                $capsule = new Eloquent;
                 $capsule->setEventDispatcher(new Dispatcher);
                 $capsule->addConnection($config->get('db'));
                 $capsule->setAsGlobal();
