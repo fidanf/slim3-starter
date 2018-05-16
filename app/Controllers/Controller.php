@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Database\DatabaseInterface;
 use Interop\Container\ContainerInterface as Container;
 use App\Support\Storage\Session;
 use League\Fractal\Manager;
@@ -34,7 +35,7 @@ abstract class Controller
         $this->session = $container->get(Session::class);
         $this->flash = $container->get(Messages::class);
         $this->fractal = $container->get(Manager::class);
-        $this->db = $container->get('database');
+        $this->db = $container->get(DatabaseInterface::class);
         $this->mail = $container->get('mail');
         $this->router = $container->get('router');
         $this->cache = $container->get('cache');
