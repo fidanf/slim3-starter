@@ -1,4 +1,8 @@
-# slim3-starter-demo : A fullstack boilerplate for Slim 3
+# Important UPDATE:
+
+I've published a fresher, improved version of this project under the name of [slim3-flex](https://github.com/fidanzaEPSI/slim3-flex). If you like clean, beautiful code, you certainly wanna check it out! :)
+
+## slim3-starter : A fullstack boilerplate for Slim 3
 
 A Slim 3 starter project with a clean directory structure, inspired from Laravel. 
 This source code provides the most essential setup & libraries to help deal with most of the needs any web application has. 
@@ -43,8 +47,3 @@ I recommend creating the .sqlite file within the _/storage_ directory.
 
 If you are using homestead's Redis server, remember to edit /etc/redis/redis.conf and fill the _requirepass_ line with your own password.
 
-### Upcoming :
-
-Assets management with Webpack and npm libraries
-
-Custom console commands
